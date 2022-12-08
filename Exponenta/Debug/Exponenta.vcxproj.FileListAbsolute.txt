@@ -1,0 +1,3 @@
+C:\Users\new\source\repos\Exponenta\Exponenta\Debug\Exponenta.vcxproj.AssemblyReference.cache
+C:\Users\new\source\repos\Exponenta\Exponenta\Debug\Exponenta.Form1.resources
+C:\Users\new\source\repos\Exponenta\Exponenta\Debug\Exponenta.vcxproj.GenerateResource.cache
