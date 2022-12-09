@@ -1,3 +1,6 @@
 C:\Users\new\source\repos\Exponenta\Exponenta\Debug\Exponenta.vcxproj.AssemblyReference.cache
 C:\Users\new\source\repos\Exponenta\Exponenta\Debug\Exponenta.Form1.resources
 C:\Users\new\source\repos\Exponenta\Exponenta\Debug\Exponenta.vcxproj.GenerateResource.cache
+T:\Downloads\Telegram Desktop\Exponenta\Exponenta\Debug\Exponenta.vcxproj.AssemblyReference.cache
+T:\Downloads\Telegram Desktop\Exponenta\Exponenta\Debug\Exponenta.Form1.resources
+T:\Downloads\Telegram Desktop\Exponenta\Exponenta\Debug\Exponenta.vcxproj.GenerateResource.cache

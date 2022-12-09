@@ -12,43 +12,45 @@ namespace CppCLRWinformsProjekt {
 	using namespace System::Drawing;
 	using namespace System::Collections::Generic;
 
-	inline bool IsNotAcc(String^ MyRes, String^ Acc)
+	inline bool IsNotAcc(String^ MyRes, String^ Accur)
 	{
 		MyRes = MyRes->Remove(MyRes->Length - 1);
 		return MyRes->EndsWith("0");
 	}
-	inline  double MyE(double eps, int &count, double X, double s)
+	inline  double MyE(double eps, int &count, double X, double sum)
 	{
-		s = 1;
+		sum = 1;
 		count = 0;
 		double a = 1;
 		while (fabs(a) > eps)
 		{
 			count++;
-			a = a * X / count; //Рекуррентная формула
-			s += a;
+			a = a * X / count;
+			sum += a;
 		}
 		if (count % 2 != 0 && X < 0)
 		{
 			count++;
-			a = a * X / count; //Рекуррентная формула
-			s += a;
+			a = a * X / count; 
+			sum+= a;
 		}
-		return s;
+		return sum;
 	}
-	inline void EPSexp(double& eps, System::String^& OutForm, double& s, int& count, double X, System::String^& MyRes, System::String^& LibRes, Dictionary<String^, String^>^ dict, String^ Acc)
+	inline void EPSexp(double& p1, System::String^& OutForm, double& sum, int& count, double X, System::String^& Result , System::String^& Res, Dictionary<String^, String^>^ dict, String^ Accur)
 	{
-		eps = Convert::ToDouble(Acc);
-		dict->TryGetValue(Acc, OutForm); //Получение значения формата из словаря
-		s = MyE(eps, count, X, s);
-		MyRes = String::Format(OutForm, s);
-		LibRes = String::Format(OutForm, exp(X));
+		p1 = Convert::ToDouble(Accur);
+		dict->TryGetValue(Accur, OutForm);
+		sum = MyE(p1, count, X, sum);
+
+
+		Result = String::Format(OutForm, sum);
+		Res = String::Format(OutForm, exp(X));
 	}
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
 		static array<wchar_t>^ digits = { '0','1','2','3','4','5','6','7','8','9' };
-		static String^ Acc = "0,1";
+		static String^ Accur = "0,1";
 		static Dictionary<String^, String^>^ dict = gcnew Dictionary<String^, String^>;
 	public:
 		Form1(void)
@@ -146,10 +148,9 @@ namespace CppCLRWinformsProjekt {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label1->Location = System::Drawing::Point(92, 17);
-			this->label1->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->label1->Location = System::Drawing::Point(46, 9);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(502, 36);
+			this->label1->Size = System::Drawing::Size(249, 18);
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"exp(x) = 1 + x/1! + x^2/2! + x^3/3! + ...";
 			// 
@@ -158,21 +159,18 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox1->Controls->Add(this->txtX);
 			this->groupBox1->Controls->Add(this->label2);
 			this->groupBox1->ForeColor = System::Drawing::SystemColors::HotTrack;
-			this->groupBox1->Location = System::Drawing::Point(24, 81);
-			this->groupBox1->Margin = System::Windows::Forms::Padding(6);
+			this->groupBox1->Location = System::Drawing::Point(12, 42);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Padding = System::Windows::Forms::Padding(6);
-			this->groupBox1->Size = System::Drawing::Size(598, 113);
+			this->groupBox1->Size = System::Drawing::Size(299, 59);
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Ввод значения X (-14<=X<=32)";
 			// 
 			// txtX
 			// 
-			this->txtX->Location = System::Drawing::Point(70, 46);
-			this->txtX->Margin = System::Windows::Forms::Padding(6);
+			this->txtX->Location = System::Drawing::Point(35, 24);
 			this->txtX->Name = L"txtX";
-			this->txtX->Size = System::Drawing::Size(512, 31);
+			this->txtX->Size = System::Drawing::Size(258, 20);
 			this->txtX->TabIndex = 3;
 			this->txtX->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			this->txtX->TextChanged += gcnew System::EventHandler(this, &Form1::txtX_TextChanged);
@@ -182,10 +180,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->label2->AutoSize = true;
 			this->label2->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->label2->Location = System::Drawing::Point(12, 52);
-			this->label2->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->label2->Location = System::Drawing::Point(6, 27);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(44, 25);
+			this->label2->Size = System::Drawing::Size(23, 13);
 			this->label2->TabIndex = 0;
 			this->label2->Text = L"X =";
 			// 
@@ -198,11 +195,9 @@ namespace CppCLRWinformsProjekt {
 			this->groupBox2->Controls->Add(this->rad0_01);
 			this->groupBox2->Controls->Add(this->rad0_1);
 			this->groupBox2->ForeColor = System::Drawing::SystemColors::HotTrack;
-			this->groupBox2->Location = System::Drawing::Point(24, 206);
-			this->groupBox2->Margin = System::Windows::Forms::Padding(6);
+			this->groupBox2->Location = System::Drawing::Point(12, 107);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Padding = System::Windows::Forms::Padding(6);
-			this->groupBox2->Size = System::Drawing::Size(598, 131);
+			this->groupBox2->Size = System::Drawing::Size(299, 68);
 			this->groupBox2->TabIndex = 2;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"Выбор точности";
@@ -211,10 +206,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->rad0_000001->AutoSize = true;
 			this->rad0_000001->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->rad0_000001->Location = System::Drawing::Point(428, 81);
-			this->rad0_000001->Margin = System::Windows::Forms::Padding(6);
+			this->rad0_000001->Location = System::Drawing::Point(214, 42);
 			this->rad0_000001->Name = L"rad0_000001";
-			this->rad0_000001->Size = System::Drawing::Size(133, 29);
+			this->rad0_000001->Size = System::Drawing::Size(70, 17);
 			this->rad0_000001->TabIndex = 5;
 			this->rad0_000001->Text = L"0,000001";
 			this->rad0_000001->UseVisualStyleBackColor = true;
@@ -224,10 +218,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->rad0_00001->AutoSize = true;
 			this->rad0_00001->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->rad0_00001->Location = System::Drawing::Point(428, 37);
-			this->rad0_00001->Margin = System::Windows::Forms::Padding(6);
+			this->rad0_00001->Location = System::Drawing::Point(214, 19);
 			this->rad0_00001->Name = L"rad0_00001";
-			this->rad0_00001->Size = System::Drawing::Size(121, 29);
+			this->rad0_00001->Size = System::Drawing::Size(64, 17);
 			this->rad0_00001->TabIndex = 4;
 			this->rad0_00001->Text = L"0,00001";
 			this->rad0_00001->UseVisualStyleBackColor = true;
@@ -237,10 +230,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->rad0_0001->AutoSize = true;
 			this->rad0_0001->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->rad0_0001->Location = System::Drawing::Point(226, 81);
-			this->rad0_0001->Margin = System::Windows::Forms::Padding(6);
+			this->rad0_0001->Location = System::Drawing::Point(113, 42);
 			this->rad0_0001->Name = L"rad0_0001";
-			this->rad0_0001->Size = System::Drawing::Size(109, 29);
+			this->rad0_0001->Size = System::Drawing::Size(58, 17);
 			this->rad0_0001->TabIndex = 3;
 			this->rad0_0001->Text = L"0,0001";
 			this->rad0_0001->UseVisualStyleBackColor = true;
@@ -250,10 +242,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->rad0_001->AutoSize = true;
 			this->rad0_001->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->rad0_001->Location = System::Drawing::Point(226, 37);
-			this->rad0_001->Margin = System::Windows::Forms::Padding(6);
+			this->rad0_001->Location = System::Drawing::Point(113, 19);
 			this->rad0_001->Name = L"rad0_001";
-			this->rad0_001->Size = System::Drawing::Size(97, 29);
+			this->rad0_001->Size = System::Drawing::Size(52, 17);
 			this->rad0_001->TabIndex = 2;
 			this->rad0_001->Text = L"0,001";
 			this->rad0_001->UseVisualStyleBackColor = true;
@@ -263,10 +254,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->rad0_01->AutoSize = true;
 			this->rad0_01->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->rad0_01->Location = System::Drawing::Point(18, 81);
-			this->rad0_01->Margin = System::Windows::Forms::Padding(6);
+			this->rad0_01->Location = System::Drawing::Point(9, 42);
 			this->rad0_01->Name = L"rad0_01";
-			this->rad0_01->Size = System::Drawing::Size(85, 29);
+			this->rad0_01->Size = System::Drawing::Size(46, 17);
 			this->rad0_01->TabIndex = 1;
 			this->rad0_01->Text = L"0,01";
 			this->rad0_01->UseVisualStyleBackColor = true;
@@ -277,24 +267,23 @@ namespace CppCLRWinformsProjekt {
 			this->rad0_1->AutoSize = true;
 			this->rad0_1->Checked = true;
 			this->rad0_1->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->rad0_1->Location = System::Drawing::Point(18, 37);
-			this->rad0_1->Margin = System::Windows::Forms::Padding(6);
+			this->rad0_1->Location = System::Drawing::Point(9, 19);
 			this->rad0_1->Name = L"rad0_1";
-			this->rad0_1->Size = System::Drawing::Size(73, 29);
+			this->rad0_1->Size = System::Drawing::Size(40, 17);
 			this->rad0_1->TabIndex = 0;
 			this->rad0_1->TabStop = true;
 			this->rad0_1->Text = L"0,1";
 			this->rad0_1->UseVisualStyleBackColor = true;
+			this->rad0_1->CheckedChanged += gcnew System::EventHandler(this, &Form1::rad0_1_CheckedChanged);
 			this->rad0_1->Click += gcnew System::EventHandler(this, &Form1::Accuracy);
 			// 
 			// btnRes
 			// 
 			this->btnRes->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->btnRes->Location = System::Drawing::Point(24, 348);
-			this->btnRes->Margin = System::Windows::Forms::Padding(6);
+			this->btnRes->Location = System::Drawing::Point(12, 181);
 			this->btnRes->Name = L"btnRes";
-			this->btnRes->Size = System::Drawing::Size(598, 62);
+			this->btnRes->Size = System::Drawing::Size(299, 32);
 			this->btnRes->TabIndex = 3;
 			this->btnRes->Text = L"Расчёт exp(x)";
 			this->btnRes->UseVisualStyleBackColor = true;
@@ -304,105 +293,93 @@ namespace CppCLRWinformsProjekt {
 			// 
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label3->Location = System::Drawing::Point(164, 415);
-			this->label3->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->label3->Location = System::Drawing::Point(82, 216);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(340, 46);
+			this->label3->Size = System::Drawing::Size(170, 24);
 			this->label3->TabIndex = 4;
 			this->label3->Text = L"Результаты расчёта:";
 			// 
 			// lblDefaultValue
 			// 
-			this->lblDefaultValue->Location = System::Drawing::Point(36, 481);
-			this->lblDefaultValue->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblDefaultValue->Location = System::Drawing::Point(18, 250);
 			this->lblDefaultValue->Name = L"lblDefaultValue";
-			this->lblDefaultValue->Size = System::Drawing::Size(270, 52);
+			this->lblDefaultValue->Size = System::Drawing::Size(135, 27);
 			this->lblDefaultValue->TabIndex = 5;
 			this->lblDefaultValue->Text = L"Исходное значение:";
 			// 
 			// lblAccuracy
 			// 
-			this->lblAccuracy->Location = System::Drawing::Point(36, 533);
-			this->lblAccuracy->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblAccuracy->Location = System::Drawing::Point(18, 277);
 			this->lblAccuracy->Name = L"lblAccuracy";
-			this->lblAccuracy->Size = System::Drawing::Size(270, 52);
+			this->lblAccuracy->Size = System::Drawing::Size(135, 27);
 			this->lblAccuracy->TabIndex = 10;
 			this->lblAccuracy->Text = L"Точность:";
 			// 
 			// lblExactValue
 			// 
-			this->lblExactValue->Location = System::Drawing::Point(36, 637);
-			this->lblExactValue->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblExactValue->Location = System::Drawing::Point(18, 331);
 			this->lblExactValue->Name = L"lblExactValue";
-			this->lblExactValue->Size = System::Drawing::Size(270, 52);
+			this->lblExactValue->Size = System::Drawing::Size(135, 27);
 			this->lblExactValue->TabIndex = 11;
 			this->lblExactValue->Text = L"Точное значение exp(x):";
 			// 
 			// lblSumCount
 			// 
-			this->lblSumCount->Location = System::Drawing::Point(36, 688);
-			this->lblSumCount->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblSumCount->Location = System::Drawing::Point(18, 358);
 			this->lblSumCount->Name = L"lblSumCount";
-			this->lblSumCount->Size = System::Drawing::Size(270, 52);
+			this->lblSumCount->Size = System::Drawing::Size(135, 27);
 			this->lblSumCount->TabIndex = 12;
 			this->lblSumCount->Text = L"Число слагаемых:";
 			// 
 			// lblRowSum
 			// 
-			this->lblRowSum->Location = System::Drawing::Point(37, 585);
-			this->lblRowSum->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblRowSum->Location = System::Drawing::Point(18, 304);
 			this->lblRowSum->Name = L"lblRowSum";
-			this->lblRowSum->Size = System::Drawing::Size(270, 52);
+			this->lblRowSum->Size = System::Drawing::Size(135, 27);
 			this->lblRowSum->TabIndex = 13;
 			this->lblRowSum->Text = L"Сумма ряда exp(x):";
 			// 
 			// lblDefVal
 			// 
-			this->lblDefVal->Location = System::Drawing::Point(310, 481);
-			this->lblDefVal->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblDefVal->Location = System::Drawing::Point(155, 250);
 			this->lblDefVal->Name = L"lblDefVal";
-			this->lblDefVal->Size = System::Drawing::Size(270, 52);
+			this->lblDefVal->Size = System::Drawing::Size(135, 27);
 			this->lblDefVal->TabIndex = 14;
 			// 
 			// lblAcc
 			// 
-			this->lblAcc->Location = System::Drawing::Point(310, 533);
-			this->lblAcc->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblAcc->Location = System::Drawing::Point(155, 277);
 			this->lblAcc->Name = L"lblAcc";
-			this->lblAcc->Size = System::Drawing::Size(270, 52);
+			this->lblAcc->Size = System::Drawing::Size(135, 27);
 			this->lblAcc->TabIndex = 15;
 			// 
 			// lblSum
 			// 
-			this->lblSum->Location = System::Drawing::Point(310, 585);
-			this->lblSum->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblSum->Location = System::Drawing::Point(155, 304);
 			this->lblSum->Name = L"lblSum";
-			this->lblSum->Size = System::Drawing::Size(270, 52);
+			this->lblSum->Size = System::Drawing::Size(135, 27);
 			this->lblSum->TabIndex = 16;
 			// 
 			// lblExVal
 			// 
-			this->lblExVal->Location = System::Drawing::Point(310, 637);
-			this->lblExVal->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblExVal->Location = System::Drawing::Point(155, 331);
 			this->lblExVal->Name = L"lblExVal";
-			this->lblExVal->Size = System::Drawing::Size(270, 52);
+			this->lblExVal->Size = System::Drawing::Size(135, 27);
 			this->lblExVal->TabIndex = 17;
 			// 
 			// lblCount
 			// 
-			this->lblCount->Location = System::Drawing::Point(310, 688);
-			this->lblCount->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
+			this->lblCount->Location = System::Drawing::Point(155, 358);
 			this->lblCount->Name = L"lblCount";
-			this->lblCount->Size = System::Drawing::Size(270, 52);
+			this->lblCount->Size = System::Drawing::Size(135, 27);
 			this->lblCount->TabIndex = 18;
 			// 
 			// btnClose
 			// 
-			this->btnClose->ForeColor = System::Drawing::Color::Red;
-			this->btnClose->Location = System::Drawing::Point(492, 746);
-			this->btnClose->Margin = System::Windows::Forms::Padding(6);
+			this->btnClose->ForeColor = System::Drawing::Color::Black;
+			this->btnClose->Location = System::Drawing::Point(200, 379);
 			this->btnClose->Name = L"btnClose";
-			this->btnClose->Size = System::Drawing::Size(150, 44);
+			this->btnClose->Size = System::Drawing::Size(96, 23);
 			this->btnClose->TabIndex = 19;
 			this->btnClose->Text = L"Закрыть";
 			this->btnClose->UseVisualStyleBackColor = true;
@@ -410,9 +387,9 @@ namespace CppCLRWinformsProjekt {
 			// 
 			// Form1
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(646, 796);
+			this->ClientSize = System::Drawing::Size(323, 414);
 			this->Controls->Add(this->btnClose);
 			this->Controls->Add(this->lblCount);
 			this->Controls->Add(this->lblExVal);
@@ -430,12 +407,12 @@ namespace CppCLRWinformsProjekt {
 			this->Controls->Add(this->groupBox1);
 			this->Controls->Add(this->label1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
-			this->Margin = System::Windows::Forms::Padding(6);
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
 			this->Name = L"Form1";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Расчёт exp(x)";
+			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->groupBox1->PerformLayout();
 			this->groupBox2->ResumeLayout(false);
@@ -453,32 +430,32 @@ namespace CppCLRWinformsProjekt {
 	{
 		if ((e->KeyChar <= 43 || e->KeyChar >= 58 || e->KeyChar == 47) && e->KeyChar != 8)
 			e->Handled = true;
-		//Запрет на ввод символов кроме цифр
+	
 		if (e->KeyChar == '.' || e->KeyChar == ',')
 		{
 			if (txtX->Text->IndexOf('-') != -1)
 			{
 				if (txtX->Text->IndexOfAny(digits) != -1)
 					e->KeyChar = ',';
-				//При наличии цифр и минуса, при вводе точки/запятой, ставится запятая
+				
 				else
 					txtX->Text = L"-0,";
-				//При отсутствии цифр и наличии минуса, при вводе точки/запятой, ставится "-0,"
+				
 			}
 			else
 			{
 				if (txtX->Text->IndexOfAny(digits) != -1)
 					e->KeyChar = ',';
-				//При наличии цифр, при вводе точки/запятой, ставится запятая
+				
 				else
 					txtX->Text = L"0,";
-				//При отсутствии цифр, при вводе точки/запятой, ставится "-0,"
+		
 			}
 			if (txtX->Text->IndexOf(',') != -1)
 				e->Handled = true;
-			//Запрет на ввод нескольких запятых
+			
 			txtX->SelectionStart = txtX->Text->Length;
-			//Перемещение курсора вправо
+			
 		}
 		if (e->KeyChar == '-')
 		{
@@ -486,14 +463,14 @@ namespace CppCLRWinformsProjekt {
 			{
 				e->Handled = true;
 				txtX->Text = txtX->Text->Trim('-');
-				//Удаление всех знаков минус из текстового поля
+				
 				txtX->SelectionStart = txtX->Text->Length;
 			}
 			else
 			{
 				e->Handled = true;
 				txtX->Text = txtX->Text->Insert(0, "-");
-				//Вставка знака минус в начало текстового поля
+				
 				txtX->SelectionStart = txtX->Text->Length;
 			}
 		}
@@ -508,7 +485,7 @@ namespace CppCLRWinformsProjekt {
 	}
 	private: System::Void Accuracy(System::Object^ sender, System::EventArgs^ e) {
 		RadioButton^ Accuracy = safe_cast<RadioButton^>(sender);
-		Acc = Accuracy->Text;
+		Accur = Accuracy->Text;
 	}
 	private: System::Void btnRes_Click(System::Object^ sender, System::EventArgs^ e)
 	{
@@ -519,12 +496,12 @@ namespace CppCLRWinformsProjekt {
 		this->lblCount->Text = L"";
 		if (this->txtX->Text == L"" || this->txtX->Text == L"-")
 		{
-			MessageBox::Show("Введите значение X!", "Внимание!", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("Введите значение X", "Внимание!", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			this->txtX->Text = L"";
 		}
 		else if ((32 < Convert::ToDouble(txtX->Text)) || (-14 > Convert::ToDouble(txtX->Text)))
 		{
-			MessageBox::Show("Превышен диапазон значений X!", "Внимание!", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			MessageBox::Show("Превышен диапазон значений X", "Внимание!", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
 			this->txtX->Text = L"";
 		}
 		else
@@ -537,9 +514,9 @@ namespace CppCLRWinformsProjekt {
 			int count; // Число слагаемых
 			double X = Convert::ToDouble(txtX->Text);
 
-			EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+			EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 
-			//Проверка на потерю точности
+			
 			if (X > 0 && MyRes->EndsWith("00"))
 			{
 				MessageBox::Show("Точность была снижена!", "Внимание!", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
@@ -548,89 +525,93 @@ namespace CppCLRWinformsProjekt {
 					if (rad0_000001->Checked)
 					{
 						rad0_00001->Checked = true;
-						Acc = rad0_00001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_00001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_00001->Checked)
 					{
 						rad0_0001->Checked = true;
-						Acc = rad0_0001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_0001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_0001->Checked)
 					{
 						rad0_001->Checked = true;
-						Acc = rad0_001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_001->Checked)
 					{
 						rad0_01->Checked = true;
-						Acc = rad0_01->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_01->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_01->Checked)
 					{
 						rad0_1->Checked = true;
-						Acc = rad0_1->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_1->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 				}
 			}
-			if (X < 0 && IsNotAcc(MyRes, Acc))
+			if (X < 0 && IsNotAcc(MyRes, Accur))
 			{
 				MessageBox::Show("Точность была повышена!", "Внимание!", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
-				while (IsNotAcc(MyRes, Acc))
+				while (IsNotAcc(MyRes, Accur))
 				{
 					if (rad0_1->Checked)
 					{
 						rad0_01->Checked = true;
-						Acc = rad0_01->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_01->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_01->Checked)
 					{
 						rad0_001->Checked = true;
-						Acc = rad0_001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_001->Checked)
 					{
 						rad0_0001->Checked = true;
-						Acc = rad0_0001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_0001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_0001->Checked)
 					{
 						rad0_00001->Checked = true;
-						Acc = rad0_00001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_00001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 					if (rad0_00001->Checked)
 					{
 						rad0_000001->Checked = true;
-						Acc = rad0_000001->Text;
-						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Acc);
+						Accur = rad0_000001->Text;
+						EPSexp(eps, OutForm, s, count, X, MyRes, LibRes, dict, Accur);
 						continue;
 					}
 				}
 			}
 			
 			lblDefVal->Text = txtX->Text;
-			lblAcc->Text = Acc;
+			lblAcc->Text = Accur;
 			lblCount->Text = Convert::ToString(count);
 			lblSum->Text = String::Format(OutForm, s);
 			lblExVal->Text = String::Format(OutForm, exp(X));
 		}
 	}
-	};
+	private: System::Void rad0_1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	}
+private: System::Void Form1_Load(System::Object^ sender, System::EventArgs^ e) {
+}
+};
 }

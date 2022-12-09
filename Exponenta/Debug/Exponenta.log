@@ -1,5 +1,6 @@
-﻿  CppCLR_WinformsProjekt.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Exponenta.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  CppCLR_WinformsProjekt.cpp
   Form1.cpp
   Создание кода...
   AssemblyInfo.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
-  Exponenta.vcxproj -> C:\Users\new\source\repos\Exponenta\Debug\Exponenta.exe
+  Exponenta.vcxproj -> T:\Downloads\Telegram Desktop\Exponenta\Debug\laba5.exe
